@@ -7,7 +7,7 @@ import { Toast } from "@/components/ui/toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, ArrowLeft } from "lucide-react";
 import { useTheme } from "next-themes";
 import type { ThirdwebContract } from "thirdweb";
 import {
@@ -22,6 +22,8 @@ import { client } from "@/lib/thirdwebClient";
 import React from "react";
 import { toast } from "sonner";
 import { Skeleton } from "./ui/skeleton";
+import { overrideCurrencySymbol } from "@/lib/utils";
+import Link from "next/link";
 
 type Props = {
 	contract: ThirdwebContract;
@@ -43,6 +45,12 @@ export function NftMint(props: Props) {
 	const [customAddress, setCustomAddress] = useState("");
 	const { theme, setTheme } = useTheme();
 	const account = useActiveAccount();
+
+	// Override currency symbol based on contract chain
+	const displayCurrencySymbol = overrideCurrencySymbol(
+		props.currencySymbol || "", 
+		props.contract.chain.id
+	);
 
 	const decreaseQuantity = () => {
 		setQuantity((prev) => Math.max(1, prev - 1));
@@ -68,6 +76,16 @@ export function NftMint(props: Props) {
 	}
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+			{/* Back button */}
+			<div className="absolute top-4 left-4">
+				<Link href="/">
+					<Button variant="outline" size="sm">
+						<ArrowLeft className="h-4 w-4 mr-2" />
+						Back to Collections
+					</Button>
+				</Link>
+			</div>
+			
 			<div className="absolute top-4 right-4">
 				<ConnectButton client={client} />
 			</div>
@@ -94,7 +112,7 @@ export function NftMint(props: Props) {
 							/>
 						)}
 						<div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-sm font-semibold">
-							{props.pricePerToken} {props.currencySymbol}/each
+							{props.pricePerToken} {displayCurrencySymbol}/each
 						</div>
 					</div>
 					<h2 className="text-2xl font-bold mb-2 dark:text-white">
@@ -133,7 +151,7 @@ export function NftMint(props: Props) {
 							</Button>
 						</div>
 						<div className="text-base pr-1 font-semibold dark:text-white">
-							Total: {props.pricePerToken * quantity} {props.currencySymbol}
+							Total: {props.pricePerToken * quantity} {displayCurrencySymbol}
 						</div>
 					</div>
 

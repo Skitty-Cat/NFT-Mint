@@ -1,10 +1,11 @@
 import { ThirdwebContract, toTokens } from "thirdweb";
 import { getActiveClaimCondition } from "thirdweb/extensions/erc20";
 import { getContractMetadata } from "thirdweb/extensions/common";
-import { defaultChain } from "@/lib/constants";
+import { defaultChain, defaultChainId } from "@/lib/constants";
 import { getContract } from "thirdweb";
 import { client } from "@/lib/thirdwebClient";
 import { getCurrencyMetadata } from "thirdweb/extensions/erc20";
+import { overrideCurrencySymbol } from "@/lib/utils";
 
 export async function getERC20Info(contract: ThirdwebContract) {
   const [claimCondition, contractMetadata] = await Promise.all([
@@ -22,6 +23,9 @@ export async function getERC20Info(contract: ThirdwebContract) {
       })
     : null;
 
+  const originalCurrencySymbol = currencyMetadata?.symbol || "";
+  const overriddenCurrencySymbol = overrideCurrencySymbol(originalCurrencySymbol, defaultChainId);
+
   return {
     displayName: contractMetadata?.name || "",
     description: contractMetadata?.description || "",
@@ -30,6 +34,6 @@ export async function getERC20Info(contract: ThirdwebContract) {
         ? Number(toTokens(priceInWei, currencyMetadata.decimals))
         : null,
     contractImage: contractMetadata?.image || "",
-    currencySymbol: currencyMetadata?.symbol || "",
+    currencySymbol: overriddenCurrencySymbol,
   };
 }
