@@ -69,18 +69,7 @@ export function LandingPage() {
         <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
           Discover and mint amazing NFT collections
         </p>
-        <div className="flex justify-center gap-4">
-          <Link href="/mint">
-            <Button className="px-8 py-3">
-              Mint NFTs
-            </Button>
-          </Link>
-          <Link href="/auction">
-            <Button variant="outline" className="px-8 py-3">
-              View Auctions
-            </Button>
-          </Link>
-        </div>
+        
       </div>
 
       {/* NFT Collections Grid */}
