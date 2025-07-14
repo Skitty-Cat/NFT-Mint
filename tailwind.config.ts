@@ -58,8 +58,23 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
-  		}
+  			},
+  			gold: {
+  				100: '#FFF9E5', // very soft yellow
+  				200: '#FFF3BF', // soft yellow
+  				300: '#FFD700',
+  				400: '#E5C100',
+  				500: '#C9A100',
+  				600: '#A67C00',
+  				700: '#7C5E00',
+  				800: '#4D3900',
+  				900: '#2C1C00',
+  			},
+  			black: '#000',
+  		},
+      fontFamily: {
+        serif: ['Merriweather', 'serif'],
+      },
   	}
   },
   plugins: [require("tailwindcss-animate")],
