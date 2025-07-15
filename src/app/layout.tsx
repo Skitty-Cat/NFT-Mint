@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 	title: "0xSkittyCat",
 	description: "Digital artist exploring the boundaries between human creativity and digital innovation. NFT collections and digital art by 0xSkittyCat.",
 	icons: {
-		icon: "/Flavicon.png",
+		icon: "/SiteIcon.png",
 	},
 };
 

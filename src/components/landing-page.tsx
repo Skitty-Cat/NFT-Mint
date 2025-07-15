@@ -217,7 +217,7 @@ export function LandingPage() {
           <div className="flex flex-col items-center gap-6 text-center">
             <div className="relative w-full max-w-2xl mx-auto">
               <div className="aspect-square overflow-hidden rounded-2xl w-full h-full">
-                <Image src="/GoldenCleaver2.png" alt="Golden VRoid" fill className="w-full h-full object-cover rounded-2xl" />
+                <Image src="/GoldenCleaver2Shadow.png" alt="Golden VRoid" fill className="w-full h-full object-cover rounded-2xl" />
               </div>
             </div>
             
