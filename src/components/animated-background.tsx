@@ -509,8 +509,13 @@ export default function AnimatedBackground() {
         }
       };
 
-      // Add event listeners
-      document.body.addEventListener('mousemove', handleMouseMove);
+      // Check if device is touch-enabled
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      // Only add mouse movement listener on non-touch devices
+      if (!isTouchDevice) {
+        document.body.addEventListener('mousemove', handleMouseMove);
+      }
       
       // Check if device orientation is supported and add listener
       if ('DeviceOrientationEvent' in window && 'ontouchstart' in document.documentElement) {
@@ -572,7 +577,9 @@ export default function AnimatedBackground() {
 
       // Cleanup function
       return () => {
-        document.body.removeEventListener('mousemove', handleMouseMove);
+        if (!isTouchDevice) {
+          document.body.removeEventListener('mousemove', handleMouseMove);
+        }
         window.removeEventListener('deviceorientation', handleDeviceOrientation, true);
         if (animationRef.current) {
           cancelAnimationFrame(animationRef.current);
