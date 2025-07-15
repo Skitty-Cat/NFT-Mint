@@ -276,7 +276,7 @@ export default function AnimatedBackground() {
                 points.push([pos.x, pos.y]);
               }
 
-              const linkSpeedRel = linkSpeed * 0.00001 * canvas.width;
+              const linkSpeedRel = linkSpeed * 0.00001 * (canvas?.width || 1000);
               this.traveled += linkSpeedRel;
               const d = this.distances[this.linked.length - 1];
 
