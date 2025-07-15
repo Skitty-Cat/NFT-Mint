@@ -478,13 +478,88 @@ export default function AnimatedBackground() {
         }
       }
 
-      // Mouse move listener
+      // Device orientation and mouse movement handlers
       const handleMouseMove = (e: MouseEvent) => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
       };
 
+      const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
+        if (e.gamma !== null && e.beta !== null) {
+          // Map device orientation to screen coordinates
+          // gamma: left-right tilt (-90 to 90)
+          // beta: front-back tilt (-180 to 180)
+          const maxTilt = 45; // Maximum tilt angle to consider
+          
+          // Clamp values to prevent extreme movements
+          const clampedGamma = Math.max(-maxTilt, Math.min(maxTilt, e.gamma));
+          const clampedBeta = Math.max(-maxTilt, Math.min(maxTilt, e.beta));
+          
+          // Convert tilt to screen coordinates
+          const screenWidth = window.innerWidth;
+          const screenHeight = window.innerHeight;
+          
+          // Map gamma (left-right) to x position
+          const xRatio = (clampedGamma + maxTilt) / (maxTilt * 2);
+          mouse.x = xRatio * screenWidth;
+          
+          // Map beta (front-back) to y position
+          const yRatio = (clampedBeta + maxTilt) / (maxTilt * 2);
+          mouse.y = yRatio * screenHeight;
+        }
+      };
+
+      // Add event listeners
       document.body.addEventListener('mousemove', handleMouseMove);
+      
+      // Check if device orientation is supported and add listener
+      if ('DeviceOrientationEvent' in window && 'ontouchstart' in document.documentElement) {
+        // Request permission for iOS devices
+        if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+          // For iOS, we need to request permission
+          const requestPermission = async () => {
+            try {
+              const permission = await (DeviceOrientationEvent as any).requestPermission();
+              if (permission === 'granted') {
+                window.addEventListener('deviceorientation', handleDeviceOrientation, true);
+              }
+            } catch (error) {
+              console.log('Device orientation permission denied');
+            }
+          };
+          
+          // Add a button or trigger to request permission
+          const requestButton = document.createElement('button');
+          requestButton.textContent = 'Enable Motion Controls';
+          requestButton.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 238, 212, 0.9);
+            color: #31102F;
+            border: 2px solid #FFEED4;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+          `;
+          requestButton.addEventListener('click', requestPermission);
+          document.body.appendChild(requestButton);
+          
+          // Auto-remove button after 5 seconds
+          setTimeout(() => {
+            if (requestButton.parentNode) {
+              requestButton.parentNode.removeChild(requestButton);
+            }
+          }, 5000);
+        } else {
+          // For Android and other devices, add listener directly
+          window.addEventListener('deviceorientation', handleDeviceOrientation, true);
+        }
+      }
 
       // Animation loop
       function animloop() {
@@ -498,6 +573,7 @@ export default function AnimatedBackground() {
       // Cleanup function
       return () => {
         document.body.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('deviceorientation', handleDeviceOrientation, true);
         if (animationRef.current) {
           cancelAnimationFrame(animationRef.current);
         }
