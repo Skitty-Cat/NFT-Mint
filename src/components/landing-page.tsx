@@ -6,14 +6,14 @@ import { ConnectButton, MediaRenderer } from "thirdweb/react";
 import { client } from "@/lib/thirdwebClient";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { contract } from "@/lib/constants";
+import { contract, defaultNftContractAddress } from "@/lib/constants";
 import { getERC20Info } from "@/lib/erc20";
 import { getERC721Info } from "@/lib/erc721";
 import { getERC1155Info } from "@/lib/erc1155";
 import { isERC1155 } from "thirdweb/extensions/erc1155";
 import { isERC721 } from "thirdweb/extensions/erc721";
 import { Skeleton } from "./ui/skeleton";
-import { ArrowRight, Sparkles, Palette, Camera, Code, Heart, Instagram, Twitter, Github, ExternalLink } from "lucide-react";
+import { ArrowRight, Sparkles, Palette, Camera, Code, Heart, ExternalLink, Copy, Check } from "lucide-react";
 import { Navigation } from "./ui/navigation";
 import { GallerySection } from "./gallery-section";
 import { ProjectsSection } from "./projects-section";
@@ -96,6 +96,17 @@ const projects = [
 export function LandingPage() {
   const [contractInfo, setContractInfo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(defaultNftContractAddress);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
 
   useEffect(() => {
     async function fetchContractInfo() {
@@ -134,7 +145,7 @@ export function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#18181b] font-serif">
+    <div className="min-h-screen bg-[#17130b] font-serif">
       {/* Navigation */}
       <Navigation />
       {/* Animated background elements (scroll with page) */}
@@ -144,42 +155,29 @@ export function LandingPage() {
         <div className="absolute top-40 left-40 w-80 h-80 bg-gold-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
       {/* Hero Section */}
-      <div className="relative z-10 text-center py-20 px-4 pt-32 font-serif">
+      <div className="relative z-10 text-center py-12 px-4 pt-32 font-serif">
         <div className="max-w-4xl mx-auto">
           {/* Artist Badge */}
-          <div className="inline-flex items-center gap-2 bg-gold-100/10 backdrop-blur-sm border border-gold-200/40 rounded-full px-4 py-2 mb-8">
-            <Palette className="h-4 w-4 text-gold-200" />
-            <span className="text-sm font-medium text-gold-100">Digital Artist & Creator</span>
-          </div>
+
           {/* Artist Name */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 font-serif" style={{ color: '#ffdd75' }}>
+          <h1 className="text-5xl md:text-8xl font-bold mb-6 font-rochester" style={{ color: '#bd9740' }}>
             0xSkittyCat
-            <span className="block font-serif" style={{ color: '#ffdd75' }}>
+            {/* <span className="block font-serif" style={{ color: '#ffdd75' }}>
               Artist
-            </span>
-          </h1>
+            </span> */}
+          </h1>          
+
           {/* Artist Bio */}
           <p className="text-xl md:text-2xl text-gold-100 mb-8 max-w-2xl mx-auto leading-relaxed font-serif">
             Exploring the boundaries between human creativity and digital innovation. 
             Creating unique digital art pieces that bridge the gap between traditional 
             aesthetics and cutting-edge technology.
           </p>
-          {/* Social Links */}
-          <div className="flex justify-center gap-6 mb-12">
-            <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors">
-              <Instagram className="h-6 w-6" />
-            </a>
-            <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors">
-              <Twitter className="h-6 w-6" />
-            </a>
-            <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors">
-              <Github className="h-6 w-6" />
-            </a>
-          </div>
+
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/mint">
-              <Button className="px-8 py-4 text-lg font-semibold bg-gold-200 hover:bg-gold-300 text-black border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif">
+              <Button className="px-8 py-4 text-lg font-semibold bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif">
                 Mint My Latest Collection
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -187,12 +185,19 @@ export function LandingPage() {
           </div>
         </div>
       </div>
+
+      
       {/* About Section */}
-      <div className="relative z-10 py-20 px-4 font-serif">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-6 font-serif" style={{ color: '#ffdd75' }}>About Me</h2>
+      <div className="relative z-10 py-5 px-4 font-serif">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex flex-col items-center gap-6 text-center">
+            <div className="relative w-full max-w-md mx-auto">
+              <div className="aspect-square overflow-hidden rounded-2xl bg-gold-100/20 p-1 w-full h-full">
+                <Image src="/MarieVRoid.png" alt="Marie VRoid" fill className="w-full h-full object-cover rounded-2xl" />
+              </div>
+            </div>
+            <div className="w-full max-w-2xl mx-auto">
+              <h2 className="text-4xl font-bold mb-6 font-serif" style={{ color: '#bd9740' }}>About Me</h2>
               <p className="text-lg text-gold-100 leading-relaxed mb-6 font-serif">
                 I'm a digital artist passionate about creating meaningful connections between 
                 technology and human emotion. My work explores themes of identity, consciousness, 
@@ -203,7 +208,7 @@ export function LandingPage() {
                 I've collaborated with galleries, tech companies, and fellow artists to push 
                 the boundaries of what's possible in the digital art space.
               </p>
-              <div className="flex items-center gap-4">
+              <div className="flex justify-center items-center gap-6">
                 <div className="flex items-center gap-2 text-gold-200 font-serif">
                   <Heart className="h-5 w-5 text-gold-200" />
                   <span>5+ Years Experience</span>
@@ -214,26 +219,23 @@ export function LandingPage() {
                 </div>
               </div>
             </div>
-            <div className="relative">
-              <div className="aspect-square overflow-hidden rounded-2xl bg-gold-100/20 p-1">
-                <Image src="/MarieVRoid.png" alt="Marie VRoid" fill className="w-full h-full object-cover rounded-2xl" />
-              </div>
-            </div>
           </div>
         </div>
       </div>
+
+
       {/* Featured Collection Section */}
-      <div className="relative z-10 py-20 px-4 font-serif">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 font-serif" style={{ color: '#ffdd75' }}>Latest Collection</h2>
+      <div className="relative z-10 py-12 px-4 font-serif">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4 font-serif" style={{ color: '#bd9740' }}>Latest Collection</h2>
             <p className="text-xl text-gold-100 max-w-2xl mx-auto font-serif">
               My newest NFT collection - available for minting now
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="flex flex-col items-center gap-8">
             {/* Collection Image */}
-            <div className="relative">
+            <div className="relative w-full max-w-md mx-auto">
               <div className="aspect-square overflow-hidden rounded-2xl bg-gold-100/20 p-1">
                 <div className="w-full h-full rounded-2xl overflow-hidden">
                   {loading ? (
@@ -255,14 +257,15 @@ export function LandingPage() {
               </div>
             </div>
             {/* Collection Details */}
-            <div className="space-y-6">
+            <div className="w-full max-w-2xl mx-auto space-y-6 text-center">
               <div>
-                <h3 className="text-3xl font-bold mb-4 font-serif" style={{ color: '#ffdd75' }}>
+                <h3 className="text-3xl font-bold mb-4 font-serif" style={{ color: '#bd9740' }}>
                   {loading ? "Loading..." : contractInfo?.displayName || "Digital Dreams Collection"}
                 </h3>
-                <p className="text-lg text-gold-100 leading-relaxed font-serif">
+                <p className="text-lg text-gold-100 leading-relaxed font-serif mb-4">
                   {loading ? "Loading description..." : contractInfo?.description || "A deeply personal collection exploring themes of digital identity and human connection in the modern age. Each piece represents a moment of introspection and artistic evolution."}
                 </p>
+
               </div>
               <div className="grid grid-cols-2 gap-6">
                 <div className="bg-gold-100/10 backdrop-blur-sm rounded-xl p-4 border border-gold-200/20 font-serif">
@@ -280,12 +283,40 @@ export function LandingPage() {
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/mint" className="flex-1">
-                  <Button className="w-full py-4 text-lg font-semibold bg-gold-200 hover:bg-gold-300 text-black border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif" disabled={loading}>
+                  <Button className="w-full py-4 text-lg font-semibold bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif" disabled={loading}>
                     {loading ? "Loading..." : "Mint Now"}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
+                
               </div>
+                                                             {/* Contract Address Button */}
+                               <div className="flex flex-col items-center gap-2">
+                                 <span className="text-sm text-gold-200 font-serif">Contract Address</span>
+                                 <div className="relative group">
+                                   <Button
+                                     onClick={copyToClipboard}
+                                     className="px-6 py-3 text-base font-semibold bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif"
+                                   >
+                                     {copied ? (
+                                       <>
+                                         <Check className="h-4 w-4 mr-2" />
+                                         Copied!
+                                       </>
+                                     ) : (
+                                       <>
+                                         <Copy className="h-4 w-4 mr-2" />
+                                         {defaultNftContractAddress.slice(0, 6)}...{defaultNftContractAddress.slice(-4)}
+                                       </>
+                                     )}
+                                   </Button>
+                                   {/* Hover Tooltip */}
+                                   <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-red-600 text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
+                                     DO NOT SEND MONEY HERE
+                                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-600"></div>
+                                   </div>
+                                 </div>
+                               </div>
             </div>
           </div>
         </div>
@@ -314,10 +345,9 @@ export function LandingPage() {
             © 2025 0xSkittyCat. Digital Artist & Creator.
           </p>
           <div className="flex justify-center gap-6">
-            <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">Instagram</a>
-            <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">Twitter</a>
-            <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">Github</a>
-            <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">Contact</a>
+            <a href="https://x.com/0xskittycat" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">X</a>
+            {/* <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">Telegram</a> */}
+            {/* <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">Contact</a> */}
           </div>
         </div>
       </div>

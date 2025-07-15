@@ -118,3 +118,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+@font-face {
+  font-family: 'Rochester';
+  src: url('/fonts/Rochester-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-rochester {
+  font-family: 'Rochester', cursive;
+}

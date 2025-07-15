@@ -76,9 +76,9 @@ export function NftMint(props: Props) {
 		return null;
 	}
 	return (
-		<div className="min-h-screen bg-[#18181b] font-serif">
+		<div className="min-h-screen bg-[#17130b] font-serif">
 			{/* Animated background elements */}
-			<div className="absolute inset-0 overflow-hidden">
+			<div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
 				<div className="absolute -top-40 -right-40 w-80 h-80 bg-gold-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
 				<div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gold-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
 				<div className="absolute top-40 left-40 w-80 h-80 bg-gold-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
@@ -92,14 +92,14 @@ export function NftMint(props: Props) {
 				{/* Back button */}
 				<div className="absolute top-20 left-4">
 					<Link href="/">
-						<Button variant="outline" size="sm" className="bg-gold-100/10 backdrop-blur-sm border-gold-200/40 text-gold-200 hover:bg-gold-100/20 font-serif">
+						<Button className="px-6 py-3 text-base font-semibold bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif">
 							<ArrowLeft className="h-4 w-4 mr-2" />
 							Back to Portfolio
 						</Button>
 					</Link>
 				</div>
 				
-				<Card className="w-full max-w-md bg-gold-100/10 backdrop-blur-sm border border-gold-200/20 font-serif">
+				<Card className="w-full max-w-md bg-gold-100/10 backdrop-blur-sm border border-gold-200/40 font-serif">
 					<CardContent className="pt-6">
 						<div className="aspect-square overflow-hidden rounded-lg mb-4 relative">
 							{props.isERC1155 ? (
@@ -118,11 +118,11 @@ export function NftMint(props: Props) {
 									}
 								/>
 							)}
-							<div className="absolute top-2 right-2 bg-[#18181b] bg-opacity-80 text-gold-200 px-2 py-1 rounded-full text-sm font-semibold font-serif">
+							<div className="absolute top-2 right-2 bg-[#17130b] bg-opacity-80 text-gold-200 px-2 py-1 rounded-full text-sm font-semibold font-serif">
 								{props.pricePerToken} {displayCurrencySymbol}/each
 							</div>
 						</div>
-						<h2 className="text-2xl font-bold mb-2 font-serif" style={{ color: '#ffdd75' }}>
+						<h2 className="text-2xl font-bold mb-2 font-serif" style={{ color: '#bd9740' }}>
 							{props.displayName}
 						</h2>
 						<p className="text-gold-100 mb-4 font-serif">
@@ -136,15 +136,15 @@ export function NftMint(props: Props) {
 									onClick={decreaseQuantity}
 									disabled={quantity <= 1}
 									aria-label="Decrease quantity"
-									className="rounded-r-none bg-gold-100 text-black border-gold-200 hover:bg-gold-200 font-serif"
+									className="rounded-r-none bg-transparent border border-[#bd9740] text-gold-200 hover:bg-gold-200/10 font-serif"
 								>
-									<Minus className="h-4 w-4 text-black" />
+									<Minus className="h-4 w-4 text-gold-200" />
 								</Button>
 								<Input
 									type="number"
 									value={quantity}
 									onChange={handleQuantityChange}
-									className="w-20 text-center rounded-none border-x-0 bg-gold-100 text-black placeholder:text-gold-200 border-gold-200 font-serif"
+									className="w-20 text-center rounded-none border-x-0 bg-transparent border border-[#bd9740] text-gold-200 placeholder:text-gold-200/50 font-serif"
 									min="1"
 								/>
 								<Button
@@ -152,9 +152,9 @@ export function NftMint(props: Props) {
 									size="icon"
 									onClick={increaseQuantity}
 									aria-label="Increase quantity"
-									className="rounded-l-none bg-gold-100 text-black border-gold-200 hover:bg-gold-200 font-serif"
+									className="rounded-l-none bg-transparent border border-[#bd9740] text-gold-200 hover:bg-gold-200/10 font-serif"
 								>
-									<Plus className="h-4 w-4 text-black" />
+									<Plus className="h-4 w-4 text-gold-200" />
 								</Button>
 							</div>
 							<div className="text-base pr-1 font-semibold text-gold-200 font-serif">
@@ -183,7 +183,7 @@ export function NftMint(props: Props) {
 									placeholder="Enter recipient address"
 									value={customAddress}
 									onChange={(e) => setCustomAddress(e.target.value)}
-									className="w-full bg-gold-100/10 border-gold-200/20 text-gold-200 placeholder:text-gold-100/50 font-serif"
+									className="w-full bg-transparent border border-[#bd9740] text-gold-200 placeholder:text-gold-200/50 font-serif"
 								/>
 							</div>
 						)}
@@ -219,9 +219,14 @@ export function NftMint(props: Props) {
 											}
 								}
 								style={{
-									backgroundColor: "black",
+									backgroundColor: "transparent",
 									color: "white",
 									width: "100%",
+									border: "1px solid #bd9740",
+									borderRadius: "0.5rem",
+									padding: "0.75rem 1rem",
+									fontWeight: "600",
+									fontFamily: "serif",
 								}}
 								disabled={isMinting}
 								onTransactionSent={() => toast.info("Minting NFT")}
@@ -240,12 +245,7 @@ export function NftMint(props: Props) {
 						)}
 					</CardFooter>
 				</Card>
-				{true && (
-					<Toast className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-md">
-						Successfully minted {quantity} NFT{quantity > 1 ? "s" : ""}
-						{useCustomAddress && customAddress ? ` to ${customAddress}` : ""}!
-					</Toast>
-				)}
+				{/* Toast notifications are handled by the toast library */}
 			</div>
 		</div>
 	);
