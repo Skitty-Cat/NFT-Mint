@@ -14,6 +14,7 @@ import { isERC1155 } from "thirdweb/extensions/erc1155";
 import { isERC721 } from "thirdweb/extensions/erc721";
 import { Skeleton } from "./ui/skeleton";
 import { ArrowRight, Sparkles, Palette, Camera, Code, Heart, ExternalLink, Copy, Check } from "lucide-react";
+import { TelegramIcon } from "./ui/telegram-icon";
 import { Navigation } from "./ui/navigation";
 import { GallerySection } from "./gallery-section";
 import { ProjectsSection } from "./projects-section";
@@ -194,9 +195,7 @@ export function LandingPage() {
 
           {/* Artist Bio */}
           <p className="text-xl md:text-2xl text-gold-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Exploring the boundaries between human creativity and digital innovation. 
-            Creating unique digital art pieces that bridge the gap between traditional 
-            aesthetics and cutting-edge technology.
+            Making Web3 Cuter
           </p>
 
           {/* CTA Buttons */}
@@ -338,7 +337,7 @@ export function LandingPage() {
                   </Button>
                   {/* Hover Tooltip */}
                   <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-red-600 text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                    DO NOT SEND MONEY HERE
+                    DO NOT SEND FUNDS TO THIS CONTRACT
                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-600"></div>
                   </div>
                 </div>
@@ -370,7 +369,10 @@ export function LandingPage() {
           </p>
           <div className="flex justify-center gap-6">
             <a href="https://x.com/0xskittycat" className="text-gold-200 hover:text-gold-300 transition-colors">X</a>
-            {/* <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors">Telegram</a> */}
+            <a href="https://t.me/buhuclothing" className="text-gold-200 hover:text-gold-300 transition-colors flex items-center gap-2">
+              <TelegramIcon className="h-5 w-5" />
+              <span className="sr-only">Telegram</span>
+            </a>
             {/* <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors">Contact</a> */}
           </div>
         </div>

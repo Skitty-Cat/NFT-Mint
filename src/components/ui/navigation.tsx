@@ -15,7 +15,7 @@ export function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <Image src="/SiteIcon.png" alt="Logo" width={32} height={32} className="rounded-full" />
-            <span className="text-xl font-bold text-white">0xSkittyCat</span>
+            <span className="text-4xl font-bold font-rochester" style={{ color: '#bd9740' }}>0xSkittyCat</span>
           </Link>
 
           {/* Navigation Links */}
