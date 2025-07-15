@@ -44,6 +44,8 @@ export function NftMint(props: Props) {
 	const [quantity, setQuantity] = useState(1);
 	const [useCustomAddress, setUseCustomAddress] = useState(false);
 	const [customAddress, setCustomAddress] = useState("");
+	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+	const [isHovering, setIsHovering] = useState(false);
 	const { theme, setTheme } = useTheme();
 	const account = useActiveAccount();
 
@@ -52,6 +54,29 @@ export function NftMint(props: Props) {
 		props.currencySymbol || "", 
 		props.contract.chain.id
 	);
+
+	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+		const rect = e.currentTarget.getBoundingClientRect();
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+		
+		const centerX = rect.width / 2;
+		const centerY = rect.height / 2;
+		
+		const rotateX = (y - centerY) / 10;
+		const rotateY = (centerX - x) / 10;
+		
+		setMousePosition({ x: rotateY, y: rotateX });
+	};
+
+	const handleMouseEnter = () => {
+		setIsHovering(true);
+	};
+
+	const handleMouseLeave = () => {
+		setIsHovering(false);
+		setMousePosition({ x: 0, y: 0 });
+	};
 
 	const decreaseQuantity = () => {
 		setQuantity((prev) => Math.max(1, prev - 1));
@@ -101,23 +126,39 @@ export function NftMint(props: Props) {
 				
 				<Card className="w-full max-w-md bg-gold-100/10 backdrop-blur-sm border border-gold-200/40 font-serif">
 					<CardContent className="pt-6">
-						<div className="aspect-square overflow-hidden rounded-lg mb-4 relative">
-							{props.isERC1155 ? (
-								<NFTProvider contract={props.contract} tokenId={props.tokenId}>
-									<NFTMedia
-										loadingComponent={<Skeleton className="w-full h-full object-cover" />}
-										className="w-full h-full object-cover" />
-								</NFTProvider>
-							) : (
-								<MediaRenderer
-									client={client}
-									className="w-full h-full object-cover"
-									alt=""
-									src={
-										props.contractImage || "/placeholder.svg?height=400&width=400"
-									}
-								/>
-							)}
+						<div 
+							className="aspect-square overflow-hidden rounded-lg mb-4 relative cursor-pointer perspective-1000 transition-all duration-300 ease-out"
+							onMouseMove={handleMouseMove}
+							onMouseEnter={handleMouseEnter}
+							onMouseLeave={handleMouseLeave}
+							style={{
+								transform: isHovering 
+									? `perspective(1000px) rotateX(${mousePosition.y}deg) rotateY(${mousePosition.x}deg) scale3d(1.05, 1.05, 1.05) translateZ(20px)`
+									: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateZ(0px)',
+								transformStyle: 'preserve-3d',
+								boxShadow: isHovering 
+									? '0 20px 40px rgba(189, 151, 64, 0.3), 0 0 60px rgba(189, 151, 64, 0.2)'
+									: '0 8px 16px rgba(189, 151, 64, 0.1), 0 0 30px rgba(189, 151, 64, 0.05)'
+							}}
+						>
+							<div className="w-full h-full">
+								{props.isERC1155 ? (
+									<NFTProvider contract={props.contract} tokenId={props.tokenId}>
+										<NFTMedia
+											loadingComponent={<Skeleton className="w-full h-full object-cover" />}
+											className="w-full h-full object-cover" />
+									</NFTProvider>
+								) : (
+									<MediaRenderer
+										client={client}
+										className="w-full h-full object-cover"
+										alt=""
+										src={
+											props.contractImage || "/placeholder.svg?height=400&width=400"
+										}
+									/>
+								)}
+							</div>
 							<div className="absolute top-2 right-2 bg-[#17130b] bg-opacity-80 text-gold-200 px-2 py-1 rounded-full text-sm font-semibold font-serif">
 								{props.pricePerToken} {displayCurrencySymbol}/each
 							</div>

@@ -73,7 +73,8 @@ const config: Config = {
   			black: '#000',
   		},
       fontFamily: {
-        serif: ['Merriweather', 'serif'],
+        serif: ["Playfair Display", "serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
   	}
   },

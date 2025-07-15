@@ -97,6 +97,8 @@ export function LandingPage() {
   const [contractInfo, setContractInfo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
 
   const copyToClipboard = async () => {
     try {
@@ -106,6 +108,29 @@ export function LandingPage() {
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+    
+    setMousePosition({ x: rotateY, y: rotateX });
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setMousePosition({ x: 0, y: 0 });
   };
 
   useEffect(() => {
@@ -145,7 +170,7 @@ export function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#17130b] font-serif">
+    <div className="min-h-screen bg-[#17130b]">
       {/* Navigation */}
       <Navigation />
       {/* Animated background elements (scroll with page) */}
@@ -155,20 +180,20 @@ export function LandingPage() {
         <div className="absolute top-40 left-40 w-80 h-80 bg-gold-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
       {/* Hero Section */}
-      <div className="relative z-10 text-center py-12 px-4 pt-32 font-serif">
+      <div className="relative z-10 text-center py-2 px-4 pt-32">
         <div className="max-w-4xl mx-auto">
           {/* Artist Badge */}
 
           {/* Artist Name */}
-          <h1 className="text-5xl md:text-8xl font-bold mb-6 font-rochester" style={{ color: '#bd9740' }}>
+          <h1 className="text-5xl md:text-8xl font-semibold mb-6 font-serif font-rochester" style={{ color: '#bd9740' }}>
             0xSkittyCat
             {/* <span className="block font-serif" style={{ color: '#ffdd75' }}>
               Artist
             </span> */}
-          </h1>          
+          </h1>
 
           {/* Artist Bio */}
-          <p className="text-xl md:text-2xl text-gold-100 mb-8 max-w-2xl mx-auto leading-relaxed font-serif">
+          <p className="text-xl md:text-2xl text-gold-100 mb-8 max-w-2xl mx-auto leading-relaxed">
             Exploring the boundaries between human creativity and digital innovation. 
             Creating unique digital art pieces that bridge the gap between traditional 
             aesthetics and cutting-edge technology.
@@ -177,7 +202,7 @@ export function LandingPage() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/mint">
-              <Button className="px-8 py-4 text-lg font-semibold bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif">
+              <Button className="px-8 py-2 text-lg font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 Mint My Latest Collection
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -186,57 +211,59 @@ export function LandingPage() {
         </div>
       </div>
 
-      
       {/* About Section */}
-      <div className="relative z-10 py-5 px-4 font-serif">
+      <div className="relative z-10 py-2 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col items-center gap-6 text-center">
-            <div className="relative w-full max-w-md mx-auto">
-              <div className="aspect-square overflow-hidden rounded-2xl bg-gold-100/20 p-1 w-full h-full">
-                <Image src="/MarieVRoid.png" alt="Marie VRoid" fill className="w-full h-full object-cover rounded-2xl" />
+            <div className="relative w-full max-w-2xl mx-auto">
+              <div className="aspect-square overflow-hidden rounded-2xl w-full h-full">
+                <Image src="/GoldenCleaver2.png" alt="Golden VRoid" fill className="w-full h-full object-cover rounded-2xl" />
               </div>
             </div>
-            <div className="w-full max-w-2xl mx-auto">
-              <h2 className="text-4xl font-bold mb-6 font-serif" style={{ color: '#bd9740' }}>About Me</h2>
-              <p className="text-lg text-gold-100 leading-relaxed mb-6 font-serif">
-                I'm a digital artist passionate about creating meaningful connections between 
-                technology and human emotion. My work explores themes of identity, consciousness, 
-                and the evolving relationship between humans and digital spaces.
-              </p>
-              <p className="text-lg text-gold-100 leading-relaxed mb-8 font-serif">
-                With over 5 years of experience in digital art and blockchain technology, 
-                I've collaborated with galleries, tech companies, and fellow artists to push 
-                the boundaries of what's possible in the digital art space.
-              </p>
-              <div className="flex justify-center items-center gap-6">
-                <div className="flex items-center gap-2 text-gold-200 font-serif">
-                  <Heart className="h-5 w-5 text-gold-200" />
-                  <span>5+ Years Experience</span>
-                </div>
-                <div className="flex items-center gap-2 text-gold-200 font-serif">
-                  <Palette className="h-5 w-5 text-gold-200" />
-                  <span>100+ Artworks Created</span>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
+      </div>
+      <div className="relative z-10 flex justify-center my-12">
+        <div
+          className="w-48 h-1 rounded-full"
+          style={{
+            backgroundColor: "#bd9740",
+            boxShadow: "0 0 16px 4px #bd9740, 0 0 32px 4px #bd9740"
+          }}
+        />
       </div>
 
 
       {/* Featured Collection Section */}
-      <div className="relative z-10 py-12 px-4 font-serif">
+      <div className="relative z-10 py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 font-serif" style={{ color: '#bd9740' }}>Latest Collection</h2>
-            <p className="text-xl text-gold-100 max-w-2xl mx-auto font-serif">
+            <h2 className="text-4xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>Latest Collection</h2>
+            <p className="text-xl text-gold-100 max-w-2xl mx-auto">
               My newest NFT collection - available for minting now
             </p>
           </div>
           <div className="flex flex-col items-center gap-8">
             {/* Collection Image */}
-            <div className="relative w-full max-w-md mx-auto">
-              <div className="aspect-square overflow-hidden rounded-2xl bg-gold-100/20 p-1">
+            <div 
+              className="relative w-full max-w-md mx-auto cursor-pointer perspective-1000"
+              onMouseMove={handleMouseMove}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div 
+                className="aspect-square overflow-hidden rounded-2xl bg-gold-100/20 p-1 transition-all duration-300 ease-out"
+                style={{
+                  transform: isHovering 
+                    ? `perspective(1000px) rotateX(${mousePosition.y}deg) rotateY(${mousePosition.x}deg) scale3d(1.05, 1.05, 1.05) translateZ(20px)`
+                    : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateZ(0px)',
+                  transformStyle: 'preserve-3d',
+                  boxShadow: isHovering 
+                    ? '0 20px 40px rgba(189, 151, 64, 0.3), 0 0 60px rgba(189, 151, 64, 0.2)'
+                    : '0 8px 16px rgba(189, 151, 64, 0.1), 0 0 30px rgba(189, 151, 64, 0.05)'
+                }}
+              >
                 <div className="w-full h-full rounded-2xl overflow-hidden">
                   {loading ? (
                     <Skeleton className="w-full h-full" />
@@ -251,7 +278,7 @@ export function LandingPage() {
                 </div>
               </div>
               {/* Floating elements */}
-              <div className="absolute -top-4 -right-4 bg-gold-100 text-black px-4 py-2 rounded-full font-semibold text-sm font-serif">
+              <div className="absolute -top-4 -right-4 bg-gold-100 text-black px-4 py-2 rounded-full font-medium text-sm">
                 <Sparkles className="inline h-4 w-4 mr-1" />
                 New Release
               </div>
@@ -259,64 +286,63 @@ export function LandingPage() {
             {/* Collection Details */}
             <div className="w-full max-w-2xl mx-auto space-y-6 text-center">
               <div>
-                <h3 className="text-3xl font-bold mb-4 font-serif" style={{ color: '#bd9740' }}>
+                <h3 className="text-3xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>
                   {loading ? "Loading..." : contractInfo?.displayName || "Digital Dreams Collection"}
                 </h3>
-                <p className="text-lg text-gold-100 leading-relaxed font-serif mb-4">
+                <p className="text-lg text-gold-100 leading-relaxed mb-4">
                   {loading ? "Loading description..." : contractInfo?.description || "A deeply personal collection exploring themes of digital identity and human connection in the modern age. Each piece represents a moment of introspection and artistic evolution."}
                 </p>
 
               </div>
               <div className="grid grid-cols-2 gap-6">
-                <div className="bg-gold-100/10 backdrop-blur-sm rounded-xl p-4 border border-gold-200/20 font-serif">
-                  <div className="text-2xl font-bold text-gold-100 font-serif">
+                <div className="bg-gold-100/10 backdrop-blur-sm rounded-xl p-4 border border-gold-200/20">
+                  <div className="text-2xl font-semibold text-gold-100">
                     {loading ? "..." : `${contractInfo?.pricePerToken || 0}`}
                   </div>
-                  <div className="text-gold-200 text-sm font-serif">
+                  <div className="text-gold-200 text-sm">
                     {loading ? "Loading..." : `${contractInfo?.currencySymbol || "ETH"} per NFT`}
                   </div>
                 </div>
-                <div className="bg-gold-100/10 backdrop-blur-sm rounded-xl p-4 border border-gold-200/20 font-serif">
-                  <div className="text-2xl font-bold text-gold-100 font-serif">Limited</div>
-                  <div className="text-gold-200 text-sm font-serif">Edition Size</div>
+                <div className="bg-gold-100/10 backdrop-blur-sm rounded-xl p-4 border border-gold-200/20">
+                  <div className="text-2xl font-semibold text-gold-100">Limited</div>
+                  <div className="text-gold-200 text-sm">Edition Size</div>
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/mint" className="flex-1">
-                  <Button className="w-full py-4 text-lg font-semibold bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif" disabled={loading}>
+                  <Button className="w-full py-4 text-lg font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" disabled={loading}>
                     {loading ? "Loading..." : "Mint Now"}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                
               </div>
-                                                             {/* Contract Address Button */}
-                               <div className="flex flex-col items-center gap-2">
-                                 <span className="text-sm text-gold-200 font-serif">Contract Address</span>
-                                 <div className="relative group">
-                                   <Button
-                                     onClick={copyToClipboard}
-                                     className="px-6 py-3 text-base font-semibold bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif"
-                                   >
-                                     {copied ? (
-                                       <>
-                                         <Check className="h-4 w-4 mr-2" />
-                                         Copied!
-                                       </>
-                                     ) : (
-                                       <>
-                                         <Copy className="h-4 w-4 mr-2" />
-                                         {defaultNftContractAddress.slice(0, 6)}...{defaultNftContractAddress.slice(-4)}
-                                       </>
-                                     )}
-                                   </Button>
-                                   {/* Hover Tooltip */}
-                                   <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-red-600 text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                                     DO NOT SEND MONEY HERE
-                                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-600"></div>
-                                   </div>
-                                 </div>
-                               </div>
+              {/* Contract Address Button */}
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-sm text-gold-200">Contract Address</span>
+                <div className="relative group">
+                  <Button
+                    onClick={copyToClipboard}
+                    className="px-6 py-3 text-base font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="h-4 w-4 mr-2" />
+                        Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4 mr-2" />
+                        {defaultNftContractAddress.slice(0, 6)}...{defaultNftContractAddress.slice(-4)}
+                      </>
+                    )}
+                  </Button>
+                  {/* Hover Tooltip */}
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-red-600 text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
+                    DO NOT SEND MONEY HERE
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-600"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -336,18 +362,16 @@ export function LandingPage() {
         projects={projects}
       /> */}
 
-      
-
       {/* Footer */}
-      <div id="contact" className="relative z-10 py-12 px-4 border-t border-gold-100/40 font-serif">
+      <div id="contact" className="relative z-10 py-12 px-4 border-t border-gold-100/40">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="text-gold-200 mb-4 font-serif">
+          <p className="text-gold-200 mb-4">
             © 2025 0xSkittyCat. Digital Artist & Creator.
           </p>
           <div className="flex justify-center gap-6">
-            <a href="https://x.com/0xskittycat" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">X</a>
-            {/* <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">Telegram</a> */}
-            {/* <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors font-serif">Contact</a> */}
+            <a href="https://x.com/0xskittycat" className="text-gold-200 hover:text-gold-300 transition-colors">X</a>
+            {/* <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors">Telegram</a> */}
+            {/* <a href="#" className="text-gold-200 hover:text-gold-300 transition-colors">Contact</a> */}
           </div>
         </div>
       </div>
