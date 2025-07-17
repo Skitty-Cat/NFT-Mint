@@ -119,7 +119,7 @@ export function NftMint(props: Props) {
 					<Link href="/">
 						<Button className="px-6 py-3 text-base font-semibold bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-serif">
 							<ArrowLeft className="h-4 w-4 mr-2" />
-							Back to Portfolio
+							Back
 						</Button>
 					</Link>
 				</div>
