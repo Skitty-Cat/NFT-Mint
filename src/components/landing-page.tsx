@@ -223,6 +223,7 @@ export function LandingPage() {
           </div>
         </div>
       </div>
+
       <div className="relative z-10 flex justify-center my-12">
         <div
           className="w-48 h-1 rounded-full"
@@ -240,12 +241,13 @@ export function LandingPage() {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>Latest Collection</h2>
             <p className="text-xl text-gold-100 max-w-2xl mx-auto">
-              My newest NFT collection - available for minting now
+              My newest NFT collection - Coming Soon
             </p>
           </div>
           <div className="flex flex-col items-center gap-8">
+
             {/* Collection Image */}
-            <div 
+            {/* <div 
               className="relative w-full max-w-md mx-auto cursor-pointer perspective-1000"
               onMouseMove={handleMouseMove}
               onMouseEnter={handleMouseEnter}
@@ -276,14 +278,15 @@ export function LandingPage() {
                   )}
                 </div>
               </div>
-              {/* Floating elements */}
+
               <div className="absolute -top-4 -right-4 bg-gold-100 text-black px-4 py-2 rounded-full font-medium text-sm">
                 <Sparkles className="inline h-4 w-4 mr-1" />
                 New Release
               </div>
-            </div>
+            </div> */}
+
             {/* Collection Details */}
-            <div className="w-full max-w-2xl mx-auto space-y-6 text-center">
+            {/* <div className="w-full max-w-2xl mx-auto space-y-6 text-center">
               <div>
                 <h3 className="text-3xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>
                   {loading ? "Loading..." : contractInfo?.displayName || "Digital Dreams Collection"}
@@ -291,7 +294,6 @@ export function LandingPage() {
                 <p className="text-lg text-gold-100 leading-relaxed mb-4">
                   {loading ? "Loading description..." : contractInfo?.description || "A deeply personal collection exploring themes of digital identity and human connection in the modern age. Each piece represents a moment of introspection and artistic evolution."}
                 </p>
-
               </div>
               <div className="grid grid-cols-2 gap-6">
                 <div className="bg-gold-100/10 backdrop-blur-sm rounded-xl p-4 border border-gold-200/20">
@@ -315,7 +317,7 @@ export function LandingPage() {
                   </Button>
                 </Link>
               </div>
-              {/* Contract Address Button */}
+
               <div className="flex flex-col items-center gap-2">
                 <span className="text-sm text-gold-200">Contract Address</span>
                 <div className="relative group">
@@ -335,32 +337,18 @@ export function LandingPage() {
                       </>
                     )}
                   </Button>
-                  {/* Hover Tooltip */}
                   <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-red-600 text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
                     DO NOT SEND FUNDS TO THIS CONTRACT
                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-600"></div>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
-      {/* Gallery Section */}
-      {/* <GallerySection 
-        title="Gallery"
-        subtitle="A curated collection of my digital artworks and creative explorations"
-        items={galleryItems}
-        categories={["All", "Digital Art", "Photography", "Portraits", "Generative Art"]}
-      /> */}
 
-      {/* Projects Section */}
-      {/* <ProjectsSection 
-        title="Featured Projects"
-        subtitle="Innovative collaborations and experimental art projects"
-        projects={projects}
-      /> */}
-
+      
       {/* Footer */}
       <div id="contact" className="relative z-10 py-12 px-4 border-t border-gold-100/40">
         <div className="max-w-6xl mx-auto text-center">
