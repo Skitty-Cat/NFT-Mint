@@ -200,12 +200,12 @@ export function LandingPage() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/mint">
+            <a href="https://doodle.skittycat.com/" target="_blank" rel="noopener noreferrer">
               <Button className="px-8 py-2 text-lg font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 Mint My Latest Collection
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ExternalLink className="ml-2 h-5 w-5" />
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -240,9 +240,17 @@ export function LandingPage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>Latest Collection</h2>
-            <p className="text-xl text-gold-100 max-w-2xl mx-auto">
-              My newest NFT collection - Coming Soon
+            <p className="text-xl text-gold-100 max-w-2xl mx-auto mb-8">
+              Available on PulseChain
             </p>
+            <div className="flex justify-center">
+              <a href="https://doodle.skittycat.com/" target="_blank" rel="noopener noreferrer">
+                <Button className="px-8 py-3 text-lg font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  PulseChain Doodle Pad
+                  <ExternalLink className="ml-2 h-5 w-5" />
+                </Button>
+              </a>
+            </div>
           </div>
           <div className="flex flex-col items-center gap-8">
 
