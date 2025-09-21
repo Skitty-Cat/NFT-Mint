@@ -255,8 +255,7 @@ export function LandingPage() {
           </div>
           
           <div className="flex flex-col items-center gap-8">
-            {/* SkittyCat NFT Card */}
-            {/* <SkittyCatCard /> */}
+            <SkittyCatCard />
           </div>
         </div>
       </div>
