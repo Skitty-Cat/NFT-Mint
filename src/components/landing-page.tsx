@@ -239,7 +239,12 @@ export function LandingPage() {
       {/* Featured Collection Section */}
       <div className="relative z-10 py-12 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="flex justify-center mb-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>Latest Projects</h2>
+            <p className="text-xl text-gold-100 max-w-2xl mx-auto mb-8">
+              Available on PulseChain
+            </p>
+            <div className="flex justify-center">
               <a href="https://doodle.skittycat.com/" target="_blank" rel="noopener noreferrer">
                 <Button className="px-8 py-3 text-lg font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                   PulseChain Doodle Pad
@@ -247,16 +252,11 @@ export function LandingPage() {
                 </Button>
               </a>
             </div>
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>Latest Collection</h2>
-            <p className="text-xl text-gold-100 max-w-2xl mx-auto mb-8">
-              Available on PulseChain
-            </p>
-            
           </div>
+          
           <div className="flex flex-col items-center gap-8">
             {/* SkittyCat NFT Card */}
-            <SkittyCatCard />
+            {/* <SkittyCatCard /> */}
           </div>
         </div>
       </div>
