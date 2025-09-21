@@ -18,6 +18,7 @@ import { TelegramIcon } from "./ui/telegram-icon";
 import { Navigation } from "./ui/navigation";
 import { GallerySection } from "./gallery-section";
 import { ProjectsSection } from "./projects-section";
+import { SkittyCatCard } from "./skittycat-card";
 import Image from "next/image";
 
 // Sample gallery data - you can replace with your actual artwork
@@ -199,14 +200,14 @@ export function LandingPage() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          {/* <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a href="https://doodle.skittycat.com/" target="_blank" rel="noopener noreferrer">
               <Button className="px-8 py-2 text-lg font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 Mint My Latest Collection
                 <ExternalLink className="ml-2 h-5 w-5" />
               </Button>
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -238,12 +239,7 @@ export function LandingPage() {
       {/* Featured Collection Section */}
       <div className="relative z-10 py-12 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>Latest Collection</h2>
-            <p className="text-xl text-gold-100 max-w-2xl mx-auto mb-8">
-              Available on PulseChain
-            </p>
-            <div className="flex justify-center">
+          <div className="flex justify-center mb-8">
               <a href="https://doodle.skittycat.com/" target="_blank" rel="noopener noreferrer">
                 <Button className="px-8 py-3 text-lg font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                   PulseChain Doodle Pad
@@ -251,107 +247,16 @@ export function LandingPage() {
                 </Button>
               </a>
             </div>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>Latest Collection</h2>
+            <p className="text-xl text-gold-100 max-w-2xl mx-auto mb-8">
+              Available on PulseChain
+            </p>
+            
           </div>
           <div className="flex flex-col items-center gap-8">
-
-            {/* Collection Image */}
-            {/* <div 
-              className="relative w-full max-w-md mx-auto cursor-pointer perspective-1000"
-              onMouseMove={handleMouseMove}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div 
-                className="aspect-square overflow-hidden rounded-2xl bg-gold-100/20 p-1 transition-all duration-300 ease-out"
-                style={{
-                  transform: isHovering 
-                    ? `perspective(1000px) rotateX(${mousePosition.y}deg) rotateY(${mousePosition.x}deg) scale3d(1.05, 1.05, 1.05) translateZ(20px)`
-                    : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateZ(0px)',
-                  transformStyle: 'preserve-3d',
-                  boxShadow: isHovering 
-                    ? '0 20px 40px rgba(189, 151, 64, 0.3), 0 0 60px rgba(189, 151, 64, 0.2)'
-                    : '0 8px 16px rgba(189, 151, 64, 0.1), 0 0 30px rgba(189, 151, 64, 0.05)'
-                }}
-              >
-                <div className="w-full h-full rounded-2xl overflow-hidden">
-                  {loading ? (
-                    <Skeleton className="w-full h-full" />
-                  ) : (
-                    <MediaRenderer
-                      client={client}
-                      className="w-full h-full object-cover"
-                      alt={contractInfo?.displayName || "Latest NFT Collection"}
-                      src={contractInfo?.contractImage || "/placeholder.svg?height=600&width=600"}
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div className="absolute -top-4 -right-4 bg-gold-100 text-black px-4 py-2 rounded-full font-medium text-sm">
-                <Sparkles className="inline h-4 w-4 mr-1" />
-                New Release
-              </div>
-            </div> */}
-
-            {/* Collection Details */}
-            {/* <div className="w-full max-w-2xl mx-auto space-y-6 text-center">
-              <div>
-                <h3 className="text-3xl font-semibold mb-4 font-serif" style={{ color: '#bd9740' }}>
-                  {loading ? "Loading..." : contractInfo?.displayName || "Digital Dreams Collection"}
-                </h3>
-                <p className="text-lg text-gold-100 leading-relaxed mb-4">
-                  {loading ? "Loading description..." : contractInfo?.description || "A deeply personal collection exploring themes of digital identity and human connection in the modern age. Each piece represents a moment of introspection and artistic evolution."}
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-gold-100/10 backdrop-blur-sm rounded-xl p-4 border border-gold-200/20">
-                  <div className="text-2xl font-semibold text-gold-100">
-                    {loading ? "..." : `${contractInfo?.pricePerToken || 0}`}
-                  </div>
-                  <div className="text-gold-200 text-sm">
-                    {loading ? "Loading..." : `${contractInfo?.currencySymbol || "ETH"} per NFT`}
-                  </div>
-                </div>
-                <div className="bg-gold-100/10 backdrop-blur-sm rounded-xl p-4 border border-gold-200/20">
-                  <div className="text-2xl font-semibold text-gold-100">Limited</div>
-                  <div className="text-gold-200 text-sm">Edition Size</div>
-                </div>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/mint" className="flex-1">
-                  <Button className="w-full py-4 text-lg font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" disabled={loading}>
-                    {loading ? "Loading..." : "Mint Now"}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-              </div>
-
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-sm text-gold-200">Contract Address</span>
-                <div className="relative group">
-                  <Button
-                    onClick={copyToClipboard}
-                    className="px-6 py-3 text-base font-medium bg-transparent border border-[#bd9740] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                  >
-                    {copied ? (
-                      <>
-                        <Check className="h-4 w-4 mr-2" />
-                        Copied!
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-4 w-4 mr-2" />
-                        {defaultNftContractAddress.slice(0, 6)}...{defaultNftContractAddress.slice(-4)}
-                      </>
-                    )}
-                  </Button>
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-red-600 text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                    DO NOT SEND FUNDS TO THIS CONTRACT
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-600"></div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+            {/* SkittyCat NFT Card */}
+            <SkittyCatCard />
           </div>
         </div>
       </div>
